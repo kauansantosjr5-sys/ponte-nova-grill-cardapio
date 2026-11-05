@@ -88,7 +88,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:30px 0 10px}
 </head>
 <body>
 <header>
-  <div class="logo"><img src="img/logo.png" alt="Ponte Nova Grill"></div>
+  <div class="logo"><img src="logo.png" alt="Ponte Nova Grill"></div>
   <div><span class="mesa" id="mesaTag" hidden>MESA <span id="mesaN"></span></span></div>
   <p class="sub">Escolha, monte seu pedido e envie direto daqui 🍔</p>
 </header>
@@ -174,7 +174,7 @@ function render(){
   $('#menu').innerHTML=MENU.map((c,i)=>`<section id="s${i}"><h2>${c.cat}</h2>${c.items.map(it=>`
    <button class="it" data-id="${it.id}">
      <div class="tx"><h3>${it.n}</h3><p>${it.d}</p><div class="pr">${it.pizza?'<small>a partir de</small>'+brl(it.from):brl(it.p)}</div></div>
-     <div class="ph ${it.pizza?'pz':''}">${it.img?`<img loading="lazy" src="img/${it.img}.jpg" alt="">`:''}${it.combo?'<span class="combo-tag">COMBO</span>':''}${CONFIG.modo==='pedido'?'<span class="add">+</span>':''}</div>
+     <div class="ph ${it.pizza?'pz':''}">${it.img?`<img loading="lazy" src="${it.img}.jpg" alt="">`:''}${it.combo?'<span class="combo-tag">COMBO</span>':''}${CONFIG.modo==='pedido'?'<span class="add">+</span>':''}</div>
    </button>`).join('')}</section>`).join('');
   document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{$('#s'+b.dataset.i).scrollIntoView()});
   document.querySelectorAll('.it').forEach(b=>b.onclick=()=>openItem(b.dataset.id));
@@ -194,7 +194,7 @@ function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clea
 function openItem(id){
   const it=ITEMS[id];let q=1,sz=it.pizza?0:null;
   const can=CONFIG.modo==='pedido';
-  sheet(`<div style="position:relative;margin-top:6px">${it.img?`<img class="hero" src="img/${it.img}.jpg" alt="">`:`<div class="hero" style="background:radial-gradient(circle at 50% 50%,#F2B33D 0 22%,#C8501A 23% 30%,#E9D2A8 31% 40%,#2A2220 41%)"></div>`}<button class="x" onclick="closeSheet()">✕</button></div>
+  sheet(`<div style="position:relative;margin-top:6px">${it.img?`<img class="hero" src="${it.img}.jpg" alt="">`:`<div class="hero" style="background:radial-gradient(circle at 50% 50%,#F2B33D 0 22%,#C8501A 23% 30%,#E9D2A8 31% 40%,#2A2220 41%)"></div>`}<button class="x" onclick="closeSheet()">✕</button></div>
    <h3>${it.n}</h3><p class="ds">${it.d}</p>
    ${it.pizza?`<span class="lbl">Tamanho</span><div class="opts">${it.pizza.map((o,i)=>`<button class="opt ${i?'':'on'}" data-i="${i}"><span>${o[0]}</span><b>${brl(o[1])}</b></button>`).join('')}</div>`:''}
    ${can?`<span class="lbl">${it.pizza?'Sabores e observações':'Observação (opcional)'}</span><textarea id="obs" placeholder="${it.pizza?'Ex.: metade calabresa, metade frango':'Ex.: sem cebola, ponto da carne...'}"></textarea>
