@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ponte Nova Grill · Cardápio</title>
+<meta name="theme-color" content="#141010">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#141010;--card:#1F1917;--card2:#2A2220;--line:#3A2F2B;--tx:#FBF3EA;--mut:#BFAFA4;--fire:#F26A1B;--gold:#F2B33D;--ok:#1FA855}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:Inter,system-ui,sans-serif;font-size:15px;padding-bottom:110px}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+img{display:block;max-width:100%}
+.wrap{max-width:720px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+header{position:relative;background:radial-gradient(120% 90% at 50% 0%,#3B1E10 0%,#1A1210 60%,var(--bg) 100%);padding:calc(18px + env(safe-area-inset-top,0px)) 0 22px;text-align:center;overflow:hidden}
+header:after{content:"";position:absolute;inset:auto 0 0;height:3px;background:linear-gradient(90deg,transparent,var(--fire),var(--gold),var(--fire),transparent)}
+.logo{background:#fff;border-radius:22px;display:inline-block;padding:10px 22px;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.logo img{height:72px}
+.mesa{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--fire);color:#fff;font-weight:800;letter-spacing:.04em;border-radius:99px;padding:7px 18px;font-size:15px}
+.sub{color:var(--mut);margin-top:10px;font-size:14px}
+nav{position:sticky;top:0;z-index:20;background:rgba(20,16,16,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:8px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+nav .wrap::-webkit-scrollbar{display:none}
+nav button{flex:none;padding:8px 16px;border-radius:99px;background:var(--card2);color:var(--mut);font-weight:600;font-size:14px;white-space:nowrap}
+nav button.on{background:var(--fire);color:#fff}
+section{padding-top:22px;scroll-margin-top:60px}
+h2{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:32px;letter-spacing:.03em;line-height:1;display:flex;align-items:center;gap:10px;margin-bottom:12px}
+h2:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--line),transparent)}
+.it{display:flex;gap:14px;align-items:stretch;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;margin-bottom:10px;width:100%;text-align:left}
+.it .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.it h3{font-size:16px;font-weight:700;line-height:1.25}
+.it p{color:var(--mut);font-size:13px;line-height:1.4;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.it .pr{margin-top:auto;padding-top:8px;font-weight:800;color:var(--gold);font-size:16px}
+.it .pr small{color:var(--mut);font-weight:600;font-size:12px;margin-right:4px}
+.it .ph{flex:none;width:96px;height:96px;border-radius:14px;overflow:hidden;background:#fff;position:relative}
+.it .ph img{width:100%;height:100%;object-fit:cover}
+.it .ph.pz{background:radial-gradient(circle at 50% 50%,#F2B33D 0 34%,#C8501A 35% 44%,#E9D2A8 45% 60%,#2A2220 61%);}
+.add{position:absolute;right:6px;bottom:6px;width:30px;height:30px;border-radius:50%;background:var(--fire);color:#fff;font-weight:800;font-size:20px;line-height:30px;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.4)}
+.combo-tag{position:absolute;left:6px;top:6px;background:#E3261F;color:#fff;font-size:10px;font-weight:800;border-radius:6px;padding:2px 6px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:linear-gradient(0deg,var(--bg) 60%,transparent)}
+.bar .wrap{display:flex;gap:10px;padding:0}
+.btn{flex:1;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:16px;padding:15px 18px;font-weight:800;font-size:16px;background:var(--fire);color:#fff;box-shadow:0 10px 24px rgba(242,106,27,.35)}
+.btn.sec{flex:none;background:var(--card2);box-shadow:none;color:var(--tx);font-size:14px;padding:15px 16px}
+.btn.wa{background:var(--ok);box-shadow:0 10px 24px rgba(31,168,85,.3)}
+.btn .q{background:rgba(255,255,255,.22);border-radius:99px;padding:2px 10px;font-size:14px}
+.btn[hidden]{display:none!important}
+.ov{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.6);opacity:0;pointer-events:none;transition:.25s}
+.ov.on{opacity:1;pointer-events:auto}
+.sh{position:fixed;left:0;right:0;bottom:0;z-index:50;max-height:92vh;overflow-y:auto;background:var(--card);border-radius:26px 26px 0 0;transform:translateY(105%);transition:transform .3s cubic-bezier(.2,.8,.2,1);padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+.sh.on{transform:none}
+.sh .in{max-width:720px;margin:0 auto;padding:0 max(18px,env(safe-area-inset-left,0px)) 0 max(18px,env(safe-area-inset-right,0px))}
+.grab{width:44px;height:5px;border-radius:9px;background:var(--line);margin:10px auto 6px}
+.x{position:absolute;right:14px;top:14px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:20px;z-index:2}
+.hero{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:18px;background:#fff}
+.sh h3{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:34px;letter-spacing:.02em;margin-top:14px;line-height:1}
+.sh .ds{color:var(--mut);line-height:1.5;margin-top:6px}
+.lbl{font-weight:700;font-size:14px;margin:18px 0 8px;display:block}
+.opts{display:grid;gap:8px}
+.opt{display:flex;justify-content:space-between;align-items:center;border:2px solid var(--line);border-radius:14px;padding:12px 14px;font-weight:600;text-align:left}
+.opt.on{border-color:var(--fire);background:rgba(242,106,27,.1)}
+.opt b{color:var(--gold)}
+textarea,input{width:100%;background:var(--card2);border:1px solid var(--line);border-radius:14px;color:var(--tx);font:inherit;padding:12px 14px;outline:none}
+textarea:focus,input:focus{border-color:var(--fire)}
+textarea{min-height:70px;resize:vertical}
+.qty{display:flex;align-items:center;gap:4px;background:var(--card2);border-radius:14px;padding:4px}
+.qty button{width:40px;height:40px;border-radius:11px;font-size:22px;font-weight:700}
+.qty span{min-width:28px;text-align:center;font-weight:800;font-size:17px}
+.row{display:flex;gap:10px;align-items:center;margin-top:18px}
+.ci{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}
+.ci .t{flex:1;min-width:0}
+.ci .t b{display:block;font-size:15px}
+.ci .t small{color:var(--mut);display:block;margin-top:2px;font-size:12.5px;line-height:1.35}
+.ci .p{font-weight:800;color:var(--gold);white-space:nowrap}
+.ci .qty button{width:32px;height:32px;font-size:18px}
+.tot{display:flex;justify-content:space-between;font-size:20px;font-weight:800;margin:16px 0 4px}
+.tot span:last-child{color:var(--gold)}
+.note{color:var(--mut);font-size:12.5px;line-height:1.45;margin-top:10px}
+.show{text-align:center}
+.show .big{font-family:"Bebas Neue",Impact,sans-serif;font-size:64px;color:var(--fire);line-height:1;margin:6px 0}
+.toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,20px);background:var(--tx);color:var(--bg);font-weight:700;border-radius:99px;padding:10px 20px;opacity:0;transition:.25s;z-index:60;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+footer{text-align:center;color:var(--mut);font-size:12px;padding:30px 0 10px}
+@media (min-width:700px){.it .ph{width:112px;height:112px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><img src="img/logo.png" alt="Ponte Nova Grill"></div>
+  <div><span class="mesa" id="mesaTag" hidden>MESA <span id="mesaN"></span></span></div>
+  <p class="sub">Escolha, monte seu pedido e envie direto daqui 🍔</p>
+</header>
+<nav><div class="wrap" id="nav"></div></nav>
+<main class="wrap" id="menu"></main>
+<footer class="wrap">Ponte Nova Grill · Preços sujeitos a alteração</footer>
+
+<div class="bar"><div class="wrap">
+  <button class="btn sec" id="callBtn">🙋 Garçom</button>
+  <button class="btn" id="cartBtn" hidden>Ver pedido <span class="q" id="cartQ">0</span> <span id="cartT"></span></button>
+</div></div>
+
+<div class="ov" id="ov"></div>
+<div class="sh" id="sheet"><div class="grab"></div><div class="in" id="sheetIn"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== CONFIGURAÇÃO ===== */
+const CONFIG={
+  whatsapp:'',          // ex.: '31999999999' (só números, com DDD). Vazio = pedido é mostrado na tela pro garçom
+  modo:'pedido'         // 'pedido' = cliente monta e envia | 'ver' = só cardápio (sem carrinho)
+};
+/* ===== CARDÁPIO ===== */
+const MENU=[
+ {cat:'Hambúrguer Artesanal',items:[
+  {id:'xtudo',n:'X-Tudo à Moda da Casa',d:'Blend 150g, bacon, ovo, presunto, mussarela, alface e tomate.',p:32,img:'xtudo'},
+  {id:'pagodao',n:'Pagodão do Simplicidade',d:'Pão brioche, blend de picanha suína 100g, blend de alcatra 100g, bacon crocante e cheddar.',p:36,img:'pagodao'},
+  {id:'trem',n:'Trem Mineiro',d:'Pão brioche macio com 2 blends bovinos de 120g e 4 fatias de mussarela.',p:36.99,img:'trem'},
+  {id:'modao',n:'Modão Sertanejo',d:'Blend 200g recheado com bacon e provolone, cheddar, cebola caramelizada, mussarela, alface, tomate e molho especial.',p:35,img:'modao'},
+  {id:'poprock',n:'Pop Rock (Eu Sou Negão)',d:'Pão brioche, blend bovino 150g, queijo prato, cebola caramelizada e tomate.',p:25.5,img:'rings'},
+  {id:'canal',n:'Canal Reis',d:'2 blends 150g, bacon crocante, duplo mussarela, cebola caramelizada, alface, tomate e barbecue.',p:35,img:'canal'},
+  {id:'gospel',n:'Gospel (Zaqueu)',d:'Pão brioche, blend bovino 120g, presunto, queijo mussarela derretido, alface, tomate e molho especial.',p:28,img:'gospel'},
+  {id:'bossa',n:'Bossa Nova',d:'Pão brioche, blend bovino de 150g grelhado na brasa, bacon crocante, 2 fatias de cheddar, alface, tomate e cebola roxa.',p:31.9,img:'bossa'},
+  {id:'embaixador',n:'O Embaixador',d:'Pão brioche, blend bovino 150g, bacon crocante, 2 fatias de cheddar, presunto e molho barbecue.',p:28.99,img:'embaixador'},
+  {id:'classico',n:'Clássico',d:'Blend 150g, mussarela, cebola caramelizada, alface, tomate e molho especial.',p:21,img:'classico'},
+  {id:'sertanejo',n:'Sertanejo Universitário',d:'Pão brioche, 2 blends bovinos 120g, bacon crocante, 2 fatias de cheddar, alface, tomate, cebola roxa e barbecue.',p:34,img:'sertanejo'},
+  {id:'forro',n:'Forró da Pisadinha',d:'Pão brioche, blend bovino 120g, duplo queijo mussarela derretido, cebola frita e molho especial.',p:25,img:'rings'},
+  {id:'smasher',n:'Smasher Burger Duplo',d:'Pão, 2 bifes smash, bacon, queijo mussarela, tomate e cebola.',p:29.99,img:'smasher'}
+ ]},
+ {cat:'Combos',items:[
+  {id:'c-classico',n:'Combo Clássico + Coca Lata',d:'Clássico acompanhado de Coca lata bem gelada.',p:26.1,img:'classico',combo:1},
+  {id:'c-classmodao',n:'Combo Clássico + Modão Sertanejo',d:'Clássico e Modão Sertanejo no mesmo pedido, com sabores marcantes em uma dupla caprichada.',p:50.4,img:'extra',combo:1},
+  {id:'c-canal',n:'Combo Canal Reis + Coca Lata',d:'Canal Reis acompanhado de Coca lata bem gelada.',p:38.7,img:'canal',combo:1},
+  {id:'c-xbacon',n:'Combo X-Bacon + Coca Lata',d:'X-Bacon suculento com Coca lata bem gelada.',p:27.81,img:'xbacon',combo:1}
+ ]},
+ {cat:'Burger Tradicionais',items:[
+  {id:'podrao',n:'Podrão',d:'Delicioso pão brioche com fatias de lombo grelhado e presunto fatiado.',p:25.99,img:'podrao'},
+  {id:'xbacon',n:'X-Bacon',d:'Hambúrguer com bacon crocante.',p:21.99,img:'xbacon'},
+  {id:'xegg',n:'X-Eggue',d:'Pão macio com bife suíno suculento, ovo no ponto e queijo derretido.',p:17.99,img:'xegg'}
+ ]},
+ {cat:'Pizzas',items:[
+  {id:'pizza',n:'Pizza Tradicional',d:'Escolha o tamanho e diga os sabores na observação.',from:25,pizza:[
+    ['Pequena (4 pedaços)',25],['Média (6 pedaços)',35],['Média 2 sabores (6 pedaços)',35],['Grande (8 pedaços)',45],['Grande 2 sabores (8 pedaços)',45]]}
+ ]},
+ {cat:'Sobremesas',items:[
+  {id:'sorvete',n:'Sorvete Expresso',d:'Casquinha de sorvete cremoso.',p:3,img:'sorvete'},
+  {id:'churros',n:'Churros Tradicional',d:'Churros crocante passado no açúcar e canela.',p:5,img:'churros'},
+  {id:'gourmet',n:'Churros Gourmet',d:'Churros com cobertura de chocolate e confeitos.',p:9.9,img:'gourmet'}
+ ]},
+ {cat:'Bebidas',items:[
+  {id:'cocalata',n:'Coca-Cola Lata',d:'350ml',p:8,img:'cocalata'},
+  {id:'coca600',n:'Coca-Cola 600ml',d:'Refrigerante Coca 600ml',p:10,img:'coca600'},
+  {id:'guaranalata',n:'Guaraná Lata',d:'350ml',p:8,img:'guaranalata'},
+  {id:'guarana600',n:'Guaraná 600ml',d:'Refrigerante Guaraná 600ml',p:10,img:'guarana600'},
+  {id:'agua',n:'Água Mineral',d:'Sem gás',p:4,img:'agua'},
+  {id:'aguagas',n:'Água com Gás',d:'Com gás',p:5,img:'aguagas'}
+ ]}
+];
+/* ===== APP ===== */
+const $=s=>document.querySelector(s);
+const brl=v=>'R$ '+v.toFixed(2).replace('.',',');
+const qs=new URLSearchParams(location.search);
+let mesa=(qs.get('mesa')||'').replace(/\D/g,'').slice(0,3);
+if(qs.get('modo')==='ver')CONFIG.modo='ver';
+const ITEMS={};MENU.forEach(c=>c.items.forEach(i=>ITEMS[i.id]=i));
+let cart=[];
+try{const s=JSON.parse(sessionStorage.getItem('pn-cart')||'[]');if(Array.isArray(s))cart=s.filter(l=>ITEMS[l.id])}catch(e){}
+const save=()=>{try{sessionStorage.setItem('pn-cart',JSON.stringify(cart))}catch(e){}};
+if(mesa){$('#mesaN').textContent=mesa;$('#mesaTag').hidden=false}
+
+function render(){
+  $('#nav').innerHTML=MENU.map((c,i)=>`<button data-i="${i}">${c.cat}</button>`).join('');
+  $('#menu').innerHTML=MENU.map((c,i)=>`<section id="s${i}"><h2>${c.cat}</h2>${c.items.map(it=>`
+   <button class="it" data-id="${it.id}">
+     <div class="tx"><h3>${it.n}</h3><p>${it.d}</p><div class="pr">${it.pizza?'<small>a partir de</small>'+brl(it.from):brl(it.p)}</div></div>
+     <div class="ph ${it.pizza?'pz':''}">${it.img?`<img loading="lazy" src="img/${it.img}.jpg" alt="">`:''}${it.combo?'<span class="combo-tag">COMBO</span>':''}${CONFIG.modo==='pedido'?'<span class="add">+</span>':''}</div>
+   </button>`).join('')}</section>`).join('');
+  document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{$('#s'+b.dataset.i).scrollIntoView()});
+  document.querySelectorAll('.it').forEach(b=>b.onclick=()=>openItem(b.dataset.id));
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const i=e.target.id.slice(1);document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.i===i));const a=document.querySelector(`#nav button[data-i="${i}"]`);a&&a.scrollIntoView({inline:'center',block:'nearest'})}}),{rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('section').forEach(s=>io.observe(s));
+  updBar();
+}
+function updBar(){
+  const q=cart.reduce((a,l)=>a+l.q,0),t=cart.reduce((a,l)=>a+l.q*l.p,0);
+  $('#cartBtn').hidden=CONFIG.modo!=='pedido'||!q;$('#cartQ').textContent=q;$('#cartT').textContent=brl(t);save();
+}
+function sheet(html){$('#sheetIn').innerHTML=html;$('#sheet').classList.add('on');$('#ov').classList.add('on');$('#sheet').scrollTop=0}
+function closeSheet(){$('#sheet').classList.remove('on');$('#ov').classList.remove('on')}
+$('#ov').onclick=closeSheet;
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),1600)}
+
+function openItem(id){
+  const it=ITEMS[id];let q=1,sz=it.pizza?0:null;
+  const can=CONFIG.modo==='pedido';
+  sheet(`<div style="position:relative;margin-top:6px">${it.img?`<img class="hero" src="img/${it.img}.jpg" alt="">`:`<div class="hero" style="background:radial-gradient(circle at 50% 50%,#F2B33D 0 22%,#C8501A 23% 30%,#E9D2A8 31% 40%,#2A2220 41%)"></div>`}<button class="x" onclick="closeSheet()">✕</button></div>
+   <h3>${it.n}</h3><p class="ds">${it.d}</p>
+   ${it.pizza?`<span class="lbl">Tamanho</span><div class="opts">${it.pizza.map((o,i)=>`<button class="opt ${i?'':'on'}" data-i="${i}"><span>${o[0]}</span><b>${brl(o[1])}</b></button>`).join('')}</div>`:''}
+   ${can?`<span class="lbl">${it.pizza?'Sabores e observações':'Observação (opcional)'}</span><textarea id="obs" placeholder="${it.pizza?'Ex.: metade calabresa, metade frango':'Ex.: sem cebola, ponto da carne...'}"></textarea>
+   <div class="row"><div class="qty"><button id="qm">−</button><span id="qn">1</span><button id="qp">+</button></div><button class="btn" id="addB">Adicionar <span id="addP"></span></button></div>`:`<div class="tot"><span>Preço</span><span>${it.pizza?'a partir de '+brl(it.from):brl(it.p)}</span></div><p class="note">Chame o garçom para fazer seu pedido.</p>`}`);
+  if(!can)return;
+  const price=()=>it.pizza?it.pizza[sz][1]:it.p;
+  const upd=()=>{$('#qn').textContent=q;$('#addP').textContent=brl(price()*q)};upd();
+  document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{sz=+b.dataset.i;document.querySelectorAll('.opt').forEach(o=>o.classList.toggle('on',o===b));upd()});
+  $('#qm').onclick=()=>{if(q>1){q--;upd()}};$('#qp').onclick=()=>{q++;upd()};
+  $('#addB').onclick=()=>{
+    const obs=$('#obs').value.trim();const n=it.pizza?`${it.n} ${it.pizza[sz][0]}`:it.n;
+    const ex=cart.find(l=>l.id===id&&l.n===n&&l.obs===obs);
+    if(ex)ex.q+=q;else cart.push({id,n,p:price(),q,obs});
+    updBar();closeSheet();toast('Adicionado ao pedido ✓');
+  };
+}
+function openCart(){
+  const t=cart.reduce((a,l)=>a+l.q*l.p,0);
+  sheet(`<h3 style="margin-top:6px">Seu pedido</h3>
+   <div>${cart.map((l,i)=>`<div class="ci"><div class="t"><b>${l.n}</b>${l.obs?`<small>Obs: ${esc(l.obs)}</small>`:''}<small>${brl(l.p)} cada</small></div><div class="qty"><button data-m="${i}">−</button><span>${l.q}</span><button data-p="${i}">+</button></div><div class="p">${brl(l.p*l.q)}</div></div>`).join('')}</div>
+   <div class="tot"><span>Total</span><span>${brl(t)}</span></div>
+   <span class="lbl">Número da mesa</span><input id="mesaIn" inputmode="numeric" maxlength="3" placeholder="Ex.: 12" value="${mesa}">
+   <span class="lbl">Seu nome (opcional)</span><input id="nome" placeholder="Pra gente te chamar">
+   <div class="row"><button class="btn sec" onclick="closeSheet()">+ Itens</button><button class="btn ${CONFIG.whatsapp?'wa':''}" id="sendB">${CONFIG.whatsapp?'Enviar pelo WhatsApp':'Finalizar pedido'}</button></div>
+   <p class="note">${CONFIG.whatsapp?'Seu pedido vai pronto pro WhatsApp do Ponte Nova Grill, é só tocar em enviar.':'Mostre a próxima tela ao garçom para confirmar seu pedido.'}</p>`);
+  document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const l=cart[b.dataset.m];l.q--;if(l.q<1)cart.splice(b.dataset.m,1);updBar();cart.length?openCart():closeSheet()});
+  document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{cart[b.dataset.p].q++;updBar();openCart()});
+  $('#sendB').onclick=send;
+}
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function send(){
+  const m=$('#mesaIn').value.replace(/\D/g,'');if(!m){$('#mesaIn').focus();toast('Informe o número da mesa');return}
+  mesa=m;const nome=$('#nome').value.trim();const t=cart.reduce((a,l)=>a+l.q*l.p,0);
+  if(CONFIG.whatsapp){
+    let tx=`*PEDIDO – MESA ${m}*\n`+(nome?`Nome: ${nome}\n`:'')+'\n'+cart.map(l=>`${l.q}x ${l.n} — ${brl(l.p*l.q)}`+(l.obs?`\n   _Obs: ${l.obs}_`:'')).join('\n')+`\n\n*Total: ${brl(t)}*`;
+    location.href=`https://wa.me/55${CONFIG.whatsapp}?text=${encodeURIComponent(tx)}`;
+    setTimeout(()=>{cart=[];updBar();closeSheet()},800);
+  }else{
+    sheet(`<div class="show"><p class="lbl" style="margin-top:14px">Mostre ao garçom</p><div class="big">MESA ${m}</div>${nome?`<p class="ds">${esc(nome)}</p>`:''}</div>
+     <div>${cart.map(l=>`<div class="ci"><div class="t"><b>${l.q}x ${l.n}</b>${l.obs?`<small>Obs: ${esc(l.obs)}</small>`:''}</div><div class="p">${brl(l.p*l.q)}</div></div>`).join('')}</div>
+     <div class="tot"><span>Total</span><span>${brl(t)}</span></div>
+     <div class="row"><button class="btn sec" onclick="openCart()">Voltar</button><button class="btn" id="newB">Pedido confirmado</button></div>`);
+    $('#newB').onclick=()=>{cart=[];updBar();closeSheet();toast('Bom apetite! 🍔')};
+  }
+}
+$('#cartBtn').onclick=openCart;
+$('#callBtn').onclick=()=>{
+  if(CONFIG.whatsapp&&mesa){location.href=`https://wa.me/55${CONFIG.whatsapp}?text=${encodeURIComponent(`🙋 *MESA ${mesa}* está chamando o garçom`)}`}
+  else sheet(`<div class="show" style="padding:20px 0"><div class="big" style="font-size:44px">CHAMAR GARÇOM</div><p class="ds">Levante a mão ou mostre esta tela 🙋</p>${mesa?`<div class="big">MESA ${mesa}</div>`:''}<div class="row"><button class="btn sec" style="flex:1" onclick="closeSheet()">Fechar</button></div></div>`);
+};
+render();
+</script>
+</body>
+</html>
