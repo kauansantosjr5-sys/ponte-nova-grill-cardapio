@@ -39,6 +39,7 @@ h2:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--lin
 .it .ph img{width:100%;height:100%;object-fit:cover}
 .it .ph.pz{background:radial-gradient(circle at 50% 50%,#F2B33D 0 34%,#C8501A 35% 44%,#E9D2A8 45% 60%,#2A2220 61%);}
 .add{position:absolute;right:6px;bottom:6px;width:30px;height:30px;border-radius:50%;background:var(--fire);color:#fff;font-weight:800;font-size:20px;line-height:30px;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.4)}
+.it.off{opacity:.55}.it.off .ph img{filter:grayscale(1)}.it .pr .ind{color:#ff8a80;font-size:13px;font-weight:700}.offtag{position:absolute;inset:auto 0 0 0;background:rgba(0,0,0,.75);color:#fff;font-size:10px;font-weight:800;letter-spacing:.08em;text-align:center;padding:3px 0}
 .combo-tag{position:absolute;left:6px;top:6px;background:#E3261F;color:#fff;font-size:10px;font-weight:800;border-radius:6px;padding:2px 6px}
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:linear-gradient(0deg,var(--bg) 60%,transparent)}
 .bar .wrap{display:flex;gap:10px;padding:0}
@@ -126,10 +127,10 @@ const qs=new URLSearchParams(location.search);
 let mesa=(qs.get('mesa')||'').replace(/\D/g,'').slice(0,3);
 if(qs.get('modo')==='ver')CONFIG.modo='ver';
 let ITEMS={};
-function indexMenu(){MENU=MENU.map(c=>({...c,items:c.items.filter(i=>!i.off)})).filter(c=>c.items.length);ITEMS={};MENU.forEach(c=>c.items.forEach(i=>ITEMS[i.id]=i))}
+function indexMenu(){MENU=MENU.filter(c=>c.items&&c.items.length);ITEMS={};MENU.forEach(c=>c.items.forEach(i=>ITEMS[i.id]=i))}
 indexMenu();
 let cart=[];
-try{const s=JSON.parse(sessionStorage.getItem('pn-cart')||'[]');if(Array.isArray(s))cart=s.filter(l=>ITEMS[l.id])}catch(e){}
+try{const s=JSON.parse(sessionStorage.getItem('pn-cart')||'[]');if(Array.isArray(s))cart=s.filter(l=>ITEMS[l.id]&&!ITEMS[l.id].off)}catch(e){}
 const save=()=>{try{sessionStorage.setItem('pn-cart',JSON.stringify(cart))}catch(e){}};
 if(mesa){$('#mesaN').textContent=mesa;$('#mesaTag').hidden=false}
 const fmtTel=n=>n.replace(/^(\d{2})(\d{5})(\d{4})$/,'($1) $2-$3');
@@ -139,9 +140,9 @@ let tipo=mesa||!CONFIG.delivery?'mesa':'delivery';
 function render(){
   $('#nav').innerHTML=MENU.map((c,i)=>`<button data-i="${i}">${c.cat}</button>`).join('');
   $('#menu').innerHTML=MENU.map((c,i)=>`<section id="s${i}"><h2>${c.cat}</h2>${c.items.map(it=>`
-   <button class="it" data-id="${it.id}">
-     <div class="tx"><h3>${it.n}</h3><p>${it.d}</p><div class="pr">${it.pizza?'<small>a partir de</small>'+brl(it.from):brl(it.p)}</div></div>
-     <div class="ph ${it.pizza?'pz':''}">${it.img?`<img loading="lazy" src="${imgSrc(it.img)}" alt="">`:''}${it.combo?'<span class="combo-tag">COMBO</span>':''}${CONFIG.modo==='pedido'?'<span class="add">+</span>':''}</div>
+   <button class="it ${it.off?'off':''}" data-id="${it.id}">
+     <div class="tx"><h3>${it.n}</h3><p>${it.d}</p><div class="pr">${it.off?'<span class="ind">Indisponível no momento</span>':it.pizza?'<small>a partir de</small>'+brl(it.from):brl(it.p)}</div></div>
+     <div class="ph ${it.pizza?'pz':''}">${it.img?`<img loading="lazy" src="${imgSrc(it.img)}" alt="">`:''}${it.combo?'<span class="combo-tag">COMBO</span>':''}${CONFIG.modo==='pedido'&&!it.off?'<span class="add">+</span>':''}${it.off?'<span class="offtag">ESGOTADO</span>':''}</div>
    </button>`).join('')}</section>`).join('');
   document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{$('#s'+b.dataset.i).scrollIntoView()});
   document.querySelectorAll('.it').forEach(b=>b.onclick=()=>openItem(b.dataset.id));
@@ -159,7 +160,7 @@ $('#ov').onclick=closeSheet;
 function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),1600)}
 
 function openItem(id){
-  const it=ITEMS[id];let q=1,sz=it.pizza?0:null;
+  const it=ITEMS[id];if(it.off){toast('Indisponível no momento');return}let q=1,sz=it.pizza?0:null;
   const can=CONFIG.modo==='pedido';
   sheet(`<div style="position:relative;margin-top:6px">${it.img?`<img class="hero" src="${imgSrc(it.img)}" alt="">`:`<div class="hero" style="background:radial-gradient(circle at 50% 50%,#F2B33D 0 22%,#C8501A 23% 30%,#E9D2A8 31% 40%,#2A2220 41%)"></div>`}<button class="x" onclick="closeSheet()">✕</button></div>
    <h3>${it.n}</h3><p class="ds">${it.d}</p>
@@ -237,7 +238,7 @@ $('#callBtn').onclick=()=>{
   else sheet(`<div class="show" style="padding:20px 0"><div class="big" style="font-size:44px">CHAMAR GARÇOM</div><p class="ds">Levante a mão ou mostre esta tela 🙋</p>${mesa?`<div class="big">MESA ${mesa}</div>`:''}<div class="row"><button class="btn sec" style="flex:1" onclick="closeSheet()">Fechar</button></div></div>`);
 };
 render();
-if(SB){SB.from('cardapio').select('menu').eq('id',1).maybeSingle().then(({data})=>{if(data&&Array.isArray(data.menu)&&data.menu.length){MENU=data.menu;indexMenu();cart=cart.filter(l=>ITEMS[l.id]);render()}})}
+if(SB){SB.from('cardapio').select('menu').eq('id',1).maybeSingle().then(({data})=>{if(data&&Array.isArray(data.menu)&&data.menu.length){MENU=data.menu;indexMenu();cart=cart.filter(l=>ITEMS[l.id]&&!ITEMS[l.id].off);render()}})}
 </script>
 </body>
 </html>
