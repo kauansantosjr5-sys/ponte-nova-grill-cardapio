@@ -105,83 +105,24 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:30px 0 10px}
 <div class="sh" id="sheet"><div class="grab"></div><div class="in" id="sheetIn"></div></div>
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="menu.js"></script>
 <script>
-/* ===== CONFIGURAÇÃO ===== */
-const CONFIG={
-  whatsapp:'',          // ex.: '31999999999' (só números, com DDD). Vazio = pedido é mostrado na tela pro garçom
-  modo:'pedido'         // 'pedido' = cliente monta e envia | 'ver' = só cardápio (sem carrinho)
-};
-/* ===== CARDÁPIO ===== */
-const MENU=[
- {cat:'Refeições',items:[
-  {id:'p01',n:'Prato 01 · Alcatra Bovina na Chapa',d:'Acompanha arroz, tropeiro, fritas e molho à campanha.',p:35,img:'p01'},
-  {id:'p02',n:'Prato 02 · Frango Grelhado',d:'Acompanha arroz, farofa bacon, fritas e salpicão.',p:26,img:'p02'},
-  {id:'p03',n:'Prato 03 · Picanha Bovina',d:'Acompanha tropeiro, fritas, arroz e molho à campanha.',p:39.9,img:'p03'},
-  {id:'p04',n:'Prato 04 · Peixe Frito',d:'Acompanha arroz, salada de legumes, fritas e feijão em caldo.',p:35,img:'p04'},
-  {id:'p05',n:'Prato 05 · Lombo à Mineira',d:'Acompanha arroz, tutu à mineira, macarronada e 2 ovos fritos.',p:30,img:'p05'},
-  {id:'p06',n:'Prato 06 · Frango Frito',d:'Acompanha arroz, feijão, farofa bacon e maionese da casa.',p:25,img:'p06'},
-  {id:'p07',n:'Prato 07 · Linguiça Mineira',d:'Acompanha arroz, tropeiro, salpicão e 2 ovos fritos.',p:28,img:'p07'},
-  {id:'p08',n:'Prato 08 · Hambúrguer Artesanal à Moda do Catatau',d:'Pão, bife de boi, mussarela, tomate, alface, bacon, molho da casa e ovo.',p:25,img:'p08'},
-  {id:'p09',n:'Prato 09 · Contra-filé à Moda',d:'Acompanha arroz, farofa com bacon, fritas e molho à campanha.',p:38,img:'p09'},
-  {id:'p10',n:'Prato 10 · Carne ao Vinho',d:'Acompanha arroz, purê e 1 pão de sal.',p:30,img:'p10'}
- ]},
- {cat:'Hambúrguer Artesanal',items:[
-  {id:'xtudo',n:'X-Tudo à Moda da Casa',d:'Blend 150g, bacon, ovo, presunto, mussarela, alface e tomate.',p:32,img:'xtudo'},
-  {id:'pagodao',n:'Pagodão do Simplicidade',d:'Pão brioche, blend de picanha suína 100g, blend de alcatra 100g, bacon crocante e cheddar.',p:36,img:'pagodao'},
-  {id:'trem',n:'Trem Mineiro',d:'Pão brioche macio com 2 blends bovinos de 120g e 4 fatias de mussarela.',p:36.99,img:'trem'},
-  {id:'modao',n:'Modão Sertanejo',d:'Blend 200g recheado com bacon e provolone, cheddar, cebola caramelizada, mussarela, alface, tomate e molho especial.',p:35,img:'modao'},
-  {id:'poprock',n:'Pop Rock (Eu Sou Negão)',d:'Pão brioche, blend bovino 150g, queijo prato, cebola caramelizada e tomate.',p:25.5,img:'rings'},
-  {id:'canal',n:'Canal Reis',d:'2 blends 150g, bacon crocante, duplo mussarela, cebola caramelizada, alface, tomate e barbecue.',p:35,img:'canal'},
-  {id:'gospel',n:'Gospel (Zaqueu)',d:'Pão brioche, blend bovino 120g, presunto, queijo mussarela derretido, alface, tomate e molho especial.',p:28,img:'gospel'},
-  {id:'bossa',n:'Bossa Nova',d:'Pão brioche, blend bovino de 150g grelhado na brasa, bacon crocante, 2 fatias de cheddar, alface, tomate e cebola roxa.',p:31.9,img:'bossa'},
-  {id:'embaixador',n:'O Embaixador',d:'Pão brioche, blend bovino 150g, bacon crocante, 2 fatias de cheddar, presunto e molho barbecue.',p:28.99,img:'embaixador'},
-  {id:'classico',n:'Clássico',d:'Blend 150g, mussarela, cebola caramelizada, alface, tomate e molho especial.',p:21,img:'classico'},
-  {id:'sertanejo',n:'Sertanejo Universitário',d:'Pão brioche, 2 blends bovinos 120g, bacon crocante, 2 fatias de cheddar, alface, tomate, cebola roxa e barbecue.',p:34,img:'sertanejo'},
-  {id:'forro',n:'Forró da Pisadinha',d:'Pão brioche, blend bovino 120g, duplo queijo mussarela derretido, cebola frita e molho especial.',p:25,img:'rings'},
-  {id:'smasher',n:'Smasher Burger Duplo',d:'Pão, 2 bifes smash, bacon, queijo mussarela, tomate e cebola.',p:29.99,img:'smasher'}
- ]},
- {cat:'Combos',items:[
-  {id:'c-classico',n:'Combo Clássico + Coca Lata',d:'Clássico acompanhado de Coca lata bem gelada.',p:26.1,img:'classico',combo:1},
-  {id:'c-classmodao',n:'Combo Clássico + Modão Sertanejo',d:'Clássico e Modão Sertanejo no mesmo pedido, com sabores marcantes em uma dupla caprichada.',p:50.4,img:'extra',combo:1},
-  {id:'c-canal',n:'Combo Canal Reis + Coca Lata',d:'Canal Reis acompanhado de Coca lata bem gelada.',p:38.7,img:'canal',combo:1},
-  {id:'c-xbacon',n:'Combo X-Bacon + Coca Lata',d:'X-Bacon suculento com Coca lata bem gelada.',p:27.81,img:'xbacon',combo:1}
- ]},
- {cat:'Burger Tradicionais',items:[
-  {id:'podrao',n:'Podrão',d:'Delicioso pão brioche com fatias de lombo grelhado e presunto fatiado.',p:25.99,img:'podrao'},
-  {id:'xbacon',n:'X-Bacon',d:'Hambúrguer com bacon crocante.',p:21.99,img:'xbacon'},
-  {id:'xegg',n:'X-Eggue',d:'Pão macio com bife suíno suculento, ovo no ponto e queijo derretido.',p:17.99,img:'xegg'}
- ]},
- {cat:'Pizzas',items:[
-  {id:'pizza',n:'Pizza Tradicional',d:'Escolha o tamanho e diga os sabores na observação.',from:25,pizza:[
-    ['Pequena (4 pedaços)',25],['Média (6 pedaços)',35],['Média 2 sabores (6 pedaços)',35],['Grande (8 pedaços)',45],['Grande 2 sabores (8 pedaços)',45]]}
- ]},
- {cat:'Sobremesas',items:[
-  {id:'pudim',n:'Pudim de Leite Condensado',d:'Pote de 250ml.',p:15,img:'s_pudim'},
-  {id:'bolo-choc',n:'Bolo de Fatia Chocolate e Doce de Leite',d:'Fatia de bolo de chocolate recheado com doce de leite.',p:20,img:'s_bchoc'},
-  {id:'bolo-mar',n:'Bolo de Fatia Maracujá',d:'Fatia de bolo com creme e cobertura de maracujá.',p:20,img:'s_bmar'},
-  {id:'pote-abac',n:'Bolo no Pote Abacaxi com Coco',d:'Pote de 250g.',p:15,img:'s_pabac'},
-  {id:'pote-choc',n:'Bolo no Pote Chocolate',d:'Pote de 250g.',p:19,img:'s_pchoc'},
-  {id:'mousse-coco',n:'Mousse no Pote Coco com Abacaxi',d:'Pote de 250g.',p:15,img:'s_mcoco'},
-  {id:'mousse-mor',n:'Mousse no Pote Morango Gourmet',d:'Pote de 250g.',p:18,img:'s_mmor'},
-  {id:'mousse-choc',n:'Mousse no Pote Chocolate',d:'Pote de 250g.',p:18,img:'s_mchoc'},
-  {id:'mousse-mar',n:'Mousse no Pote Maracujá',d:'Pote de 250g.',p:15,img:'s_mmar'}
- ]},
- {cat:'Bebidas',items:[
-  {id:'cocalata',n:'Coca-Cola Lata',d:'350ml',p:8,img:'cocalata'},
-  {id:'coca600',n:'Coca-Cola 600ml',d:'Refrigerante Coca 600ml',p:10,img:'coca600'},
-  {id:'guaranalata',n:'Guaraná Lata',d:'350ml',p:8,img:'guaranalata'},
-  {id:'guarana600',n:'Guaraná 600ml',d:'Refrigerante Guaraná 600ml',p:10,img:'guarana600'},
-  {id:'agua',n:'Água Mineral',d:'Sem gás',p:4,img:'agua'},
-  {id:'aguagas',n:'Água com Gás',d:'Com gás',p:5,img:'aguagas'}
- ]}
-];
+/* ===== CONFIGURAÇÃO (fica no config.js) ===== */
+const CONFIG=Object.assign({whatsapp:'',modo:'pedido'},window.PN_CONFIG||{});
+let MENU=window.DEFAULT_MENU;
+const SB=(CONFIG.supabaseUrl&&window.supabase)?window.supabase.createClient(CONFIG.supabaseUrl,CONFIG.supabaseKey):null;
+const imgSrc=v=>/^https?:/.test(v)?v:v+'.jpg';
 /* ===== APP ===== */
 const $=s=>document.querySelector(s);
 const brl=v=>'R$ '+v.toFixed(2).replace('.',',');
 const qs=new URLSearchParams(location.search);
 let mesa=(qs.get('mesa')||'').replace(/\D/g,'').slice(0,3);
 if(qs.get('modo')==='ver')CONFIG.modo='ver';
-const ITEMS={};MENU.forEach(c=>c.items.forEach(i=>ITEMS[i.id]=i));
+let ITEMS={};
+function indexMenu(){MENU=MENU.map(c=>({...c,items:c.items.filter(i=>!i.off)})).filter(c=>c.items.length);ITEMS={};MENU.forEach(c=>c.items.forEach(i=>ITEMS[i.id]=i))}
+indexMenu();
 let cart=[];
 try{const s=JSON.parse(sessionStorage.getItem('pn-cart')||'[]');if(Array.isArray(s))cart=s.filter(l=>ITEMS[l.id])}catch(e){}
 const save=()=>{try{sessionStorage.setItem('pn-cart',JSON.stringify(cart))}catch(e){}};
@@ -192,7 +133,7 @@ function render(){
   $('#menu').innerHTML=MENU.map((c,i)=>`<section id="s${i}"><h2>${c.cat}</h2>${c.items.map(it=>`
    <button class="it" data-id="${it.id}">
      <div class="tx"><h3>${it.n}</h3><p>${it.d}</p><div class="pr">${it.pizza?'<small>a partir de</small>'+brl(it.from):brl(it.p)}</div></div>
-     <div class="ph ${it.pizza?'pz':''}">${it.img?`<img loading="lazy" src="${it.img}.jpg" alt="">`:''}${it.combo?'<span class="combo-tag">COMBO</span>':''}${CONFIG.modo==='pedido'?'<span class="add">+</span>':''}</div>
+     <div class="ph ${it.pizza?'pz':''}">${it.img?`<img loading="lazy" src="${imgSrc(it.img)}" alt="">`:''}${it.combo?'<span class="combo-tag">COMBO</span>':''}${CONFIG.modo==='pedido'?'<span class="add">+</span>':''}</div>
    </button>`).join('')}</section>`).join('');
   document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{$('#s'+b.dataset.i).scrollIntoView()});
   document.querySelectorAll('.it').forEach(b=>b.onclick=()=>openItem(b.dataset.id));
@@ -212,7 +153,7 @@ function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clea
 function openItem(id){
   const it=ITEMS[id];let q=1,sz=it.pizza?0:null;
   const can=CONFIG.modo==='pedido';
-  sheet(`<div style="position:relative;margin-top:6px">${it.img?`<img class="hero" src="${it.img}.jpg" alt="">`:`<div class="hero" style="background:radial-gradient(circle at 50% 50%,#F2B33D 0 22%,#C8501A 23% 30%,#E9D2A8 31% 40%,#2A2220 41%)"></div>`}<button class="x" onclick="closeSheet()">✕</button></div>
+  sheet(`<div style="position:relative;margin-top:6px">${it.img?`<img class="hero" src="${imgSrc(it.img)}" alt="">`:`<div class="hero" style="background:radial-gradient(circle at 50% 50%,#F2B33D 0 22%,#C8501A 23% 30%,#E9D2A8 31% 40%,#2A2220 41%)"></div>`}<button class="x" onclick="closeSheet()">✕</button></div>
    <h3>${it.n}</h3><p class="ds">${it.d}</p>
    ${it.pizza?`<span class="lbl">Tamanho</span><div class="opts">${it.pizza.map((o,i)=>`<button class="opt ${i?'':'on'}" data-i="${i}"><span>${o[0]}</span><b>${brl(o[1])}</b></button>`).join('')}</div>`:''}
    ${can?`<span class="lbl">${it.pizza?'Sabores e observações':'Observação (opcional)'}</span><textarea id="obs" placeholder="${it.pizza?'Ex.: metade calabresa, metade frango':'Ex.: sem cebola, ponto da carne...'}"></textarea>
@@ -237,7 +178,7 @@ function openCart(){
    <span class="lbl">Número da mesa</span><input id="mesaIn" inputmode="numeric" maxlength="3" placeholder="Ex.: 12" value="${mesa}">
    <span class="lbl">Seu nome (opcional)</span><input id="nome" placeholder="Pra gente te chamar">
    <div class="row"><button class="btn sec" onclick="closeSheet()">+ Itens</button><button class="btn ${CONFIG.whatsapp?'wa':''}" id="sendB">${CONFIG.whatsapp?'Enviar pelo WhatsApp':'Finalizar pedido'}</button></div>
-   <p class="note">${CONFIG.whatsapp?'Seu pedido vai pronto pro WhatsApp do Ponte Nova Grill, é só tocar em enviar.':'Mostre a próxima tela ao garçom para confirmar seu pedido.'}</p>`);
+   <p class="note">${CONFIG.whatsapp?'Seu pedido vai pronto pro WhatsApp do Ponte Nova Grill, é só tocar em enviar.':(SB?'Seu pedido vai direto para a cozinha.':'Mostre a próxima tela ao garçom para confirmar seu pedido.')}</p>`);
   document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const l=cart[b.dataset.m];l.q--;if(l.q<1)cart.splice(b.dataset.m,1);updBar();cart.length?openCart():closeSheet()});
   document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{cart[b.dataset.p].q++;updBar();openCart()});
   $('#sendB').onclick=send;
@@ -246,6 +187,16 @@ function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;
 function send(){
   const m=$('#mesaIn').value.replace(/\D/g,'');if(!m){$('#mesaIn').focus();toast('Informe o número da mesa');return}
   mesa=m;const nome=$('#nome').value.trim();const t=cart.reduce((a,l)=>a+l.q*l.p,0);
+  if(SB&&!CONFIG.whatsapp){
+    const b=$('#sendB');b.disabled=true;b.textContent='Enviando...';
+    SB.from('pedidos').insert({mesa:m,nome:nome||null,itens:cart.map(l=>({n:l.n,q:l.q,p:l.p,obs:l.obs||''})),total:Math.round(t*100)/100}).then(({error})=>{
+      if(error){b.disabled=false;b.textContent='Finalizar pedido';toast('Não foi possível enviar. Chame o garçom.');console.error(error);return}
+      const linhas=cart.map(l=>`<div class="ci"><div class="t"><b>${l.q}x ${l.n}</b>${l.obs?`<small>Obs: ${esc(l.obs)}</small>`:''}</div><div class="p">${brl(l.p*l.q)}</div></div>`).join('');
+      cart=[];updBar();
+      sheet(`<div class="show"><p class="lbl" style="margin-top:14px">Pedido enviado para a cozinha ✓</p><div class="big">MESA ${m}</div>${nome?`<p class="ds">${esc(nome)}</p>`:''}</div><div>${linhas}</div><div class="tot"><span>Total</span><span>${brl(t)}</span></div><p class="note">Já estamos preparando. Qualquer coisa é só chamar o garçom.</p><div class="row"><button class="btn" style="flex:1" onclick="closeSheet()">Ok</button></div>`);
+    });
+    return;
+  }
   if(CONFIG.whatsapp){
     let tx=`*PEDIDO – MESA ${m}*\n`+(nome?`Nome: ${nome}\n`:'')+'\n'+cart.map(l=>`${l.q}x ${l.n} — ${brl(l.p*l.q)}`+(l.obs?`\n   _Obs: ${l.obs}_`:'')).join('\n')+`\n\n*Total: ${brl(t)}*`;
     location.href=`https://wa.me/55${CONFIG.whatsapp}?text=${encodeURIComponent(tx)}`;
@@ -264,6 +215,7 @@ $('#callBtn').onclick=()=>{
   else sheet(`<div class="show" style="padding:20px 0"><div class="big" style="font-size:44px">CHAMAR GARÇOM</div><p class="ds">Levante a mão ou mostre esta tela 🙋</p>${mesa?`<div class="big">MESA ${mesa}</div>`:''}<div class="row"><button class="btn sec" style="flex:1" onclick="closeSheet()">Fechar</button></div></div>`);
 };
 render();
+if(SB){SB.from('cardapio').select('menu').eq('id',1).maybeSingle().then(({data})=>{if(data&&Array.isArray(data.menu)&&data.menu.length){MENU=data.menu;indexMenu();cart=cart.filter(l=>ITEMS[l.id]);render()}})}
 </script>
 </body>
 </html>
