@@ -111,7 +111,7 @@ input:focus,textarea:focus{border-color:var(--fire)}
  <section id="loginV" class="login" hidden>
   <img src="logo.png" alt="Ponte Nova Grill">
   <h2>Painel do restaurante</h2>
-  <input id="em" type="email" placeholder="E-mail" autocomplete="username">
+  <input id="em" type="text" placeholder="Usuário" autocomplete="username" autocapitalize="none" spellcheck="false">
   <input id="pw" type="password" placeholder="Senha" autocomplete="current-password">
   <button class="btn" id="loginB">Entrar</button>
   <div class="err" id="lerr"></div>
@@ -157,15 +157,16 @@ if(!C.supabaseUrl||!window.supabase){document.body.innerHTML='<div class="login"
 const SB=window.supabase.createClient(C.supabaseUrl,C.supabaseKey);
 
 /* ===== LOGIN ===== */
+const toEmail=u=>{u=u.trim().toLowerCase();return u.includes('@')?u:u.replace(/[^a-z0-9._-]/g,'')+'@pontenova.app'};
 async function boot(){
   const {data:{session}}=await SB.auth.getSession();
   if(session){showMain()}else{$('#loginV').hidden=false}
 }
 $('#loginB').onclick=async()=>{
   const b=$('#loginB');b.disabled=true;$('#lerr').textContent='';
-  const {error}=await SB.auth.signInWithPassword({email:$('#em').value.trim(),password:$('#pw').value});
+  const {error}=await SB.auth.signInWithPassword({email:toEmail($('#em').value),password:$('#pw').value});
   b.disabled=false;
-  if(error){$('#lerr').textContent='E-mail ou senha incorretos';return}
+  if(error){$('#lerr').textContent='Usuário ou senha incorretos';return}
   $('#loginV').hidden=true;showMain();
 };
 $('#pw').onkeydown=e=>{if(e.key==='Enter')$('#loginB').click()};
