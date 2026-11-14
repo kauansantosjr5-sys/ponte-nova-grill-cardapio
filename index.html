@@ -44,6 +44,10 @@ h2:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--lin
 .bar .wrap{display:flex;gap:10px;padding:0}
 .btn{flex:1;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:16px;padding:15px 18px;font-weight:800;font-size:16px;background:var(--fire);color:#fff;box-shadow:0 10px 24px rgba(242,106,27,.35)}
 .btn.sec{flex:none;background:var(--card2);box-shadow:none;color:var(--tx);font-size:14px;padding:15px 16px}
+[hidden]{display:none!important}
+select{width:100%;background:var(--card2);color:var(--tx);border:1px solid var(--line);border-radius:14px;padding:13px 14px;font:inherit;font-size:16px;appearance:none}
+.dlv{margin-top:8px;font-size:14px;color:var(--mut)}.dlv b{color:var(--gold)}
+.seg{display:flex;gap:6px;background:var(--card2);border-radius:14px;padding:4px;margin:12px 0 4px}.seg button{flex:1;padding:10px;border-radius:10px;font-weight:700;color:var(--mut)}.seg button.on{background:var(--fire);color:#fff}
 .btn.wa{background:var(--ok);box-shadow:0 10px 24px rgba(31,168,85,.3)}
 .btn .q{background:rgba(255,255,255,.22);border-radius:99px;padding:2px 10px;font-size:14px}
 .btn[hidden]{display:none!important}
@@ -91,6 +95,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:30px 0 10px}
   <div class="logo"><img src="logo.png" alt="Ponte Nova Grill"></div>
   <div><span class="mesa" id="mesaTag" hidden>MESA <span id="mesaN"></span></span></div>
   <p class="sub">Escolha, monte seu pedido e envie direto daqui 🍔</p>
+  <p class="dlv" id="dlvTag" hidden>🛵 Delivery: <b id="dlvN"></b></p>
 </header>
 <nav><div class="wrap" id="nav"></div></nav>
 <main class="wrap" id="menu"></main>
@@ -127,6 +132,9 @@ let cart=[];
 try{const s=JSON.parse(sessionStorage.getItem('pn-cart')||'[]');if(Array.isArray(s))cart=s.filter(l=>ITEMS[l.id])}catch(e){}
 const save=()=>{try{sessionStorage.setItem('pn-cart',JSON.stringify(cart))}catch(e){}};
 if(mesa){$('#mesaN').textContent=mesa;$('#mesaTag').hidden=false}
+const fmtTel=n=>n.replace(/^(\d{2})(\d{5})(\d{4})$/,'($1) $2-$3');
+if(CONFIG.delivery){$('#dlvN').textContent=fmtTel(CONFIG.delivery);$('#dlvTag').hidden=false}
+let tipo=mesa||!CONFIG.delivery?'mesa':'delivery';
 
 function render(){
   $('#nav').innerHTML=MENU.map((c,i)=>`<button data-i="${i}">${c.cat}</button>`).join('');
@@ -175,15 +183,29 @@ function openCart(){
   sheet(`<h3 style="margin-top:6px">Seu pedido</h3>
    <div>${cart.map((l,i)=>`<div class="ci"><div class="t"><b>${l.n}</b>${l.obs?`<small>Obs: ${esc(l.obs)}</small>`:''}<small>${brl(l.p)} cada</small></div><div class="qty"><button data-m="${i}">−</button><span>${l.q}</span><button data-p="${i}">+</button></div><div class="p">${brl(l.p*l.q)}</div></div>`).join('')}</div>
    <div class="tot"><span>Total</span><span>${brl(t)}</span></div>
-   <span class="lbl">Número da mesa</span><input id="mesaIn" inputmode="numeric" maxlength="3" placeholder="Ex.: 12" value="${mesa}">
-   <span class="lbl">Seu nome (opcional)</span><input id="nome" placeholder="Pra gente te chamar">
-   <div class="row"><button class="btn sec" onclick="closeSheet()">+ Itens</button><button class="btn ${CONFIG.whatsapp?'wa':''}" id="sendB">${CONFIG.whatsapp?'Enviar pelo WhatsApp':'Finalizar pedido'}</button></div>
-   <p class="note">${CONFIG.whatsapp?'Seu pedido vai pronto pro WhatsApp do Ponte Nova Grill, é só tocar em enviar.':(SB?'Seu pedido vai direto para a cozinha.':'Mostre a próxima tela ao garçom para confirmar seu pedido.')}</p>`);
+   ${CONFIG.delivery?`<div class="seg"><button data-tp="mesa" class="${tipo==='mesa'?'on':''}">🍽 Na mesa</button><button data-tp="delivery" class="${tipo==='delivery'?'on':''}">🛵 Delivery</button></div>`:''}
+   ${tipo==='mesa'?`<span class="lbl">Número da mesa</span><input id="mesaIn" inputmode="numeric" maxlength="3" placeholder="Ex.: 12" value="${mesa}">
+   <span class="lbl">Seu nome (opcional)</span><input id="nome" placeholder="Pra gente te chamar">`:`<span class="lbl">Seu nome</span><input id="nome" placeholder="Nome">
+   <span class="lbl">Endereço de entrega</span><textarea id="end" placeholder="Rua, número, bairro e ponto de referência"></textarea>
+   <span class="lbl">Pagamento</span><select id="pag"><option>Pix</option><option>Dinheiro</option><option>Cartão (maquininha)</option></select>
+   <input id="troco" placeholder="Troco pra quanto? (se for dinheiro)" style="margin-top:8px">`}
+   <div class="row"><button class="btn sec" onclick="closeSheet()">+ Itens</button><button class="btn ${tipo==='delivery'||CONFIG.whatsapp?'wa':''}" id="sendB">${tipo==='delivery'?'Pedir pelo WhatsApp':CONFIG.whatsapp?'Enviar pelo WhatsApp':'Finalizar pedido'}</button></div>
+   <p class="note">${tipo==='delivery'?'Seu pedido vai pronto pro WhatsApp do Ponte Nova Grill '+fmtTel(CONFIG.delivery)+', é só tocar em enviar.':CONFIG.whatsapp?'Seu pedido vai pronto pro WhatsApp do Ponte Nova Grill, é só tocar em enviar.':(SB?'Seu pedido vai direto para a cozinha.':'Mostre a próxima tela ao garçom para confirmar seu pedido.')}</p>`);
+  document.querySelectorAll('[data-tp]').forEach(b=>b.onclick=()=>{tipo=b.dataset.tp;openCart()});
   document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const l=cart[b.dataset.m];l.q--;if(l.q<1)cart.splice(b.dataset.m,1);updBar();cart.length?openCart():closeSheet()});
   document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{cart[b.dataset.p].q++;updBar();openCart()});
-  $('#sendB').onclick=send;
+  $('#sendB').onclick=tipo==='delivery'?sendDelivery:send;
 }
 function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function sendDelivery(){
+  const nome=$('#nome').value.trim(),end=$('#end').value.trim(),pag=$('#pag').value,troco=$('#troco').value.trim();
+  if(!nome){$('#nome').focus();toast('Informe seu nome');return}
+  if(!end){$('#end').focus();toast('Informe o endereço');return}
+  const t=cart.reduce((a,l)=>a+l.q*l.p,0);
+  const tx=`*PEDIDO DELIVERY*\nNome: ${nome}\nEndereço: ${end}\nPagamento: ${pag}`+(troco&&pag==='Dinheiro'?` (troco p/ ${troco})`:'')+'\n\n'+cart.map(l=>`${l.q}x ${l.n} — ${brl(l.p*l.q)}`+(l.obs?`\n   _Obs: ${l.obs}_`:'')).join('\n')+`\n\n*Total: ${brl(t)}* (+ taxa de entrega)`;
+  location.href=`https://wa.me/55${CONFIG.delivery}?text=${encodeURIComponent(tx)}`;
+  setTimeout(()=>{cart=[];updBar();closeSheet()},800);
+}
 function send(){
   const m=$('#mesaIn').value.replace(/\D/g,'');if(!m){$('#mesaIn').focus();toast('Informe o número da mesa');return}
   mesa=m;const nome=$('#nome').value.trim();const t=cart.reduce((a,l)=>a+l.q*l.p,0);
