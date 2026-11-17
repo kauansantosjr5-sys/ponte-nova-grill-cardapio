@@ -81,7 +81,7 @@ window.DEFAULT_MENU=[
   {id:'guarana600',n:'Guaraná 600ml',d:'Refrigerante Guaraná 600ml',p:10,img:'guarana600'},
   {id:'agua',n:'Água Mineral',d:'Sem gás',p:4,img:'agua'},
   {id:'aguagas',n:'Água com Gás',d:'Com gás',p:5,img:'aguagas'},
-  {id:'coca2l',n:'Coca-Cola 2L',d:'Refrigerante Coca 2L',p:13},
-  {id:'guarana2l',n:'Guaraná 2L',d:'Refrigerante Guaraná 2L',p:10}
+  {id:'coca2l',n:'Coca-Cola 2L',d:'Refrigerante Coca 2L',p:13,img:'z_ref2l'},
+  {id:'guarana2l',n:'Guaraná 2L',d:'Refrigerante Guaraná 2L',p:10,img:'z_ref2l'}
  ]}
 ];
