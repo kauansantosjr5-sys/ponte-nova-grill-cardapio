@@ -39,8 +39,29 @@ window.DEFAULT_MENU=[
   {id:'xegg',n:'X-Eggue',d:'Pão macio com bife suíno suculento, ovo no ponto e queijo derretido.',p:17.99,img:'xegg'}
  ]},
  {cat:'Pizzas',items:[
-  {id:'pizza',n:'Pizza Tradicional',d:'Escolha o tamanho e diga os sabores na observação.',from:25,pizza:[
-    ['Pequena (4 pedaços)',25],['Média (6 pedaços)',35],['Média 2 sabores (6 pedaços)',35],['Grande (8 pedaços)',45],['Grande 2 sabores (8 pedaços)',45]]}
+  {id:'z_calab',n:'Calabresa Especial',d:'Pizza 35 cm · 8 fatias. Molho de tomate, mussarela, calabresa, cebola e orégano.',p:39.9,img:'z_calab'},
+  {id:'z_muss',n:'Mussarela',d:'Pizza 35 cm · 8 fatias. Molho de tomate, bastante mussarela e orégano.',p:37.9,img:'z_muss'},
+  {id:'z_frcat',n:'Frango com Catupiry',d:'Pizza 35 cm · 8 fatias. Frango desfiado, mussarela e Catupiry.',p:44.9,img:'z_frcat'},
+  {id:'z_fresp',n:'Frango Especial',d:'Pizza 35 cm · 8 fatias. Frango, mussarela, milho, bacon e Catupiry.',p:47.9,img:'z_fresp'},
+  {id:'z_port',n:'Portuguesa',d:'Pizza 35 cm · 8 fatias. Presunto, ovo, cebola, milho, ervilha, mussarela e azeitona.',p:47.9,img:'z_port'},
+  {id:'z_bacon',n:'Bacon',d:'Pizza 35 cm · 8 fatias. Mussarela, bacon crocante, tomate e orégano.',p:44.9,img:'z_bacon'},
+  {id:'z_4q',n:'4 Queijos',d:'Pizza 35 cm · 8 fatias. Mussarela, provolone, parmesão e Catupiry.',p:47.9,img:'z_4q'},
+  {id:'z_pepp',n:'Pepperoni',d:'Pizza 35 cm · 8 fatias. Mussarela, pepperoni e orégano.',p:49.9,img:'z_pepp'},
+  {id:'z_moda',n:'Moda da Casa',d:'Pizza 35 cm · 8 fatias. Mussarela, calabresa, bacon, milho, tomate e Catupiry.',p:49.9,img:'z_moda'},
+  {id:'z_lec',n:'Lá em Casa Especial',d:'Pizza 35 cm · 8 fatias. Combinação especial da casa, bem recheada e saborosa.',p:52.9,img:'z_lec'},
+  {id:'cb1',n:'Combo 1 · Lá em Casa',d:'1 pizza 35 cm + 1 refrigerante 2L.',p:54.9,img:'z_calab',combo:1},
+  {id:'cb2',n:'Combo 2 · Casal',d:'1 pizza 35 cm + 1 refrigerante 2L + 1 sobremesa.',p:64.9,img:'z_pepp',combo:1},
+  {id:'cb3',n:'Combo 3 · Família',d:'2 pizzas 35 cm + 1 refrigerante 2L. A partir de R$ 89,90.',p:89.9,img:'z_moda',combo:1},
+  {id:'b-catu',n:'Borda Recheada · Catupiry',d:'Deixe sua pizza ainda mais especial.',p:7},
+  {id:'b-ched',n:'Borda Recheada · Cheddar',d:'Deixe sua pizza ainda mais especial.',p:7},
+  {id:'b-choc',n:'Borda Recheada · Chocolate',d:'Deixe sua pizza ainda mais especial.',p:9},
+  {id:'a-muss',n:'Adicional · Mussarela extra',d:'Adicional para pizza.',p:5},
+  {id:'a-bacon',n:'Adicional · Bacon',d:'Adicional para pizza.',p:6},
+  {id:'a-calab',n:'Adicional · Calabresa',d:'Adicional para pizza.',p:5},
+  {id:'a-frango',n:'Adicional · Frango',d:'Adicional para pizza.',p:5},
+  {id:'a-catu',n:'Adicional · Catupiry',d:'Adicional para pizza.',p:6},
+  {id:'a-milho',n:'Adicional · Milho',d:'Adicional para pizza.',p:3},
+  {id:'a-azeit',n:'Adicional · Azeitona',d:'Adicional para pizza.',p:3}
  ]},
  {cat:'Sobremesas',items:[
   {id:'pudim',n:'Pudim de Leite Condensado',d:'Pote de 250ml.',p:15,img:'s_pudim'},
@@ -59,6 +80,8 @@ window.DEFAULT_MENU=[
   {id:'guaranalata',n:'Guaraná Lata',d:'350ml',p:8,img:'guaranalata'},
   {id:'guarana600',n:'Guaraná 600ml',d:'Refrigerante Guaraná 600ml',p:10,img:'guarana600'},
   {id:'agua',n:'Água Mineral',d:'Sem gás',p:4,img:'agua'},
-  {id:'aguagas',n:'Água com Gás',d:'Com gás',p:5,img:'aguagas'}
+  {id:'aguagas',n:'Água com Gás',d:'Com gás',p:5,img:'aguagas'},
+  {id:'coca2l',n:'Coca-Cola 2L',d:'Refrigerante Coca 2L',p:13},
+  {id:'guarana2l',n:'Guaraná 2L',d:'Refrigerante Guaraná 2L',p:10}
  ]}
 ];
